@@ -181,7 +181,7 @@ class EWMH:
 		:param state2: a state or 0
 		:type state2: int or str (see :attr:`NET_WM_STATES`)"""
 		if type(state) != int: state = self.display.get_atom(state, 1)
-		if type(state2) != int: state = self.display.get_atom(state2, 1)
+		if type(state2) != int: state2 = self.display.get_atom(state2, 1)
 		self._setProperty('_NET_WM_STATE', [action, state, state2, 1], win)
 	
 	# ------------------------ getters properties ------------------------

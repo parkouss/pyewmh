@@ -30,3 +30,18 @@ Documentation
 -------------
 
 Online documentation is available here: http://ewmh.readthedocs.org/en/latest/.
+
+Contributors
+------------
+
+* Reuben Thomas <rrt@sc3d.org>
+
+Thanks also to
+--------------
+
+* Holger Witsch
+
+Changelog
+---------
+
+See the `CHANGES.txt` file.

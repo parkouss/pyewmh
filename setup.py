@@ -20,5 +20,5 @@ setup(name='ewmh',
       url='https://github.com/parkouss/pyewmh',
       packages=['ewmh'],
       install_requires=install_requires,
-      license='LICENSE.txt',
+      license='LGPL',
 )

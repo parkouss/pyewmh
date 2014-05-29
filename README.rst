@@ -4,6 +4,9 @@ Description
 An implementation of EWMH (Extended Window Manager Hints) for python, based on Xlib.
 It allows EWMH-compliant window managers (most modern WMs) to be queried and controlled.
 
+pyewmh is distributed under the GNU Lesser General Public License, version 3, or,
+at your option, any later version. See `LICENSE.txt` for more information.
+
 Installation
 ------------
 

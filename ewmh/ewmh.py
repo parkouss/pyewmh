@@ -51,21 +51,21 @@ class EWMH:
 		self.root = root or self.display.screen().root
 		self.__getAttrs = {
 			'_NET_CLIENT_LIST': 		self.getClientList,
-			'_NET_CLIENT_LIST_STACKING':self.getClientListStacking,
+			'_NET_CLIENT_LIST_STACKING':	self.getClientListStacking,
 			'_NET_NUMBER_OF_DESKTOPS':	self.getNumberOfDesktops,
 			'_NET_DESKTOP_GEOMETRY':	self.getDesktopGeometry,
 			'_NET_DESKTOP_VIEWPORT':	self.getDesktopViewPort,
 			'_NET_CURRENT_DESKTOP':		self.getCurrentDesktop,
 			'_NET_ACTIVE_WINDOW':		self.getActiveWindow,
-			'_NET_WORKAREA':			self.getWorkArea,
+			'_NET_WORKAREA':		self.getWorkArea,
 			'_NET_SHOWING_DESKTOP':		self.getShowingDesktop,
-			'_NET_WM_NAME':				self.getWmName,
+			'_NET_WM_NAME':			self.getWmName,
 			'_NET_WM_VISIBLE_NAME':		self.getWmVisibleName,
-			'_NET_WM_DESKTOP':			self.getWmDesktop,
+			'_NET_WM_DESKTOP':		self.getWmDesktop,
 			'_NET_WM_WINDOW_TYPE':		self.getWmWindowType,
-			'_NET_WM_STATE':			self.getWmState, 
+			'_NET_WM_STATE':		self.getWmState, 
 			'_NET_WM_ALLOWED_ACTIONS':	self.getWmAllowedActions,
-			'_NET_WM_PID':				self.getWmPid,
+			'_NET_WM_PID':			self.getWmPid,
 		}
 		self.__setAttrs = {
 			'_NET_NUMBER_OF_DESKTOPS':	self.setNumberOfDesktops,
@@ -76,10 +76,10 @@ class EWMH:
 			'_NET_SHOWING_DESKTOP':		self.setShowingDesktop,
 			'_NET_CLOSE_WINDOW':		self.setCloseWindow,
 			'_NET_MOVERESIZE_WINDOW':	self.setMoveResizeWindow,
-			'_NET_WM_NAME':				self.setWmName,
+			'_NET_WM_NAME':			self.setWmName,
 			'_NET_WM_VISIBLE_NAME':		self.setWmVisibleName,
-			'_NET_WM_DESKTOP':			self.setWmDesktop,
-			'_NET_WM_STATE':			self.setWmState, 
+			'_NET_WM_DESKTOP':		self.setWmDesktop,
+			'_NET_WM_STATE':		self.setWmState, 
 		}
 	
 	# ------------------------ setters properties ------------------------

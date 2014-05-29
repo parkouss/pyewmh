@@ -14,7 +14,7 @@ else:
 setup(name='ewmh',
       version=re.findall("__version__ = '(.+)'", open('ewmh/__init__.py').read())[0],
       description='python implementation of Extended Window Manager Hints, based on Xlib',
-      long_description=open('README').read(),
+      long_description=open('README.rst').read(),
       author='parkouss',
       author_email="j.parkouss@gmail.com",
       url='https://github.com/parkouss/pyewmh',

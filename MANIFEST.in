@@ -1,0 +1,2 @@
+include doc/*
+prune doc/_build

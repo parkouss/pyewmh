@@ -1,22 +1,21 @@
 """This module intends to provide an implementation of Extended Window Manager Hints, based on
 the Xlib modules for python.
 
-You can look at the `freedsktop specs <http://standards.freedesktop.org/wm-spec/wm-spec-latest.html>`_ for more informations about EWMH.
+See the freedesktop.org `specification <http://standards.freedesktop.org/wm-spec/wm-spec-latest.html>`_ for more information.
 """
 
 from Xlib import display, X, protocol, Xatom
 import time
 
 class EWMH:
-	"""This is the main class implementing EWMH interface. It provides the abilty to retrieve or set properties
-	defined by the EWMH specs (`freedsktop specs <http://standards.freedesktop.org/wm-spec/wm-spec-latest.html>`_).
+	"""This class provides the ability to get and set properties defined by the EWMH spec.
 	
-	Every property can be accessed in two ways. For example, if you want to get the active window::
+	Each property can be accessed in two ways. For example, to get the active window::
 
 	  win = ewmh.getActiveWindow()
 	  # or: win = ewmh.getProperty('_NET_ACTIVE_WINDOW')
 	
-	This is a same to write a property. Say you want to set the active window::
+	Similarly, to set the active window::
 
 	  ewmh.setActiveWindow(myWindow)
 	  # or: ewmh.setProperty('_NET_ACTIVE_WINDOW', myWindow)
@@ -33,40 +32,40 @@ class EWMH:
 		'_NET_WM_WINDOW_TYPE_UTILITY', '_NET_WM_WINDOW_TYPE_SPLASH', '_NET_WM_WINDOW_TYPE_DIALOG', '_NET_WM_WINDOW_TYPE_DROPDOWN_MENU',
 		'_NET_WM_WINDOW_TYPE_POPUP_MENU', '_NET_WM_WINDOW_TYPE_NOTIFICATION', '_NET_WM_WINDOW_TYPE_COMBO', '_NET_WM_WINDOW_TYPE_DND',
 		'_NET_WM_WINDOW_TYPE_NORMAL')
-	"""List of strings representing all know window types."""
+	"""List of strings representing all known window types."""
 	
 	NET_WM_ACTIONS = (
 		'_NET_WM_ACTION_MOVE', '_NET_WM_ACTION_RESIZE', '_NET_WM_ACTION_MINIMIZE', '_NET_WM_ACTION_SHADE',
 		'_NET_WM_ACTION_STICK', '_NET_WM_ACTION_MAXIMIZE_HORZ', '_NET_WM_ACTION_MAXIMIZE_VERT', '_NET_WM_ACTION_FULLSCREEN',
 		'_NET_WM_ACTION_CHANGE_DESKTOP', '_NET_WM_ACTION_CLOSE', '_NET_WM_ACTION_ABOVE', '_NET_WM_ACTION_BELOW')
-	"""List of strings representing all know window actions."""
+	"""List of strings representing all known window actions."""
 	
 	NET_WM_STATES = (
 		'_NET_WM_STATE_MODAL', '_NET_WM_STATE_STICKY', '_NET_WM_STATE_MAXIMIZED_VERT', '_NET_WM_STATE_MAXIMIZED_HORZ',
 		'_NET_WM_STATE_SHADED', '_NET_WM_STATE_SKIP_TASKBAR', '_NET_WM_STATE_SKIP_PAGER', '_NET_WM_STATE_HIDDEN',
 		'_NET_WM_STATE_FULLSCREEN','_NET_WM_STATE_ABOVE', '_NET_WM_STATE_BELOW', '_NET_WM_STATE_DEMANDS_ATTENTION')
-	"""List of strings representing all know window states."""
+	"""List of strings representing all known window states."""
 	
 	def __init__(self, _display=None, root = None):
 		self.display = _display or display.Display()
 		self.root = root or self.display.screen().root
 		self.__getAttrs = {
 			'_NET_CLIENT_LIST': 		self.getClientList,
-			'_NET_CLIENT_LIST_STACKING':self.getClientListStacking,
+			'_NET_CLIENT_LIST_STACKING':	self.getClientListStacking,
 			'_NET_NUMBER_OF_DESKTOPS':	self.getNumberOfDesktops,
 			'_NET_DESKTOP_GEOMETRY':	self.getDesktopGeometry,
 			'_NET_DESKTOP_VIEWPORT':	self.getDesktopViewPort,
 			'_NET_CURRENT_DESKTOP':		self.getCurrentDesktop,
 			'_NET_ACTIVE_WINDOW':		self.getActiveWindow,
-			'_NET_WORKAREA':			self.getWorkArea,
+			'_NET_WORKAREA':		self.getWorkArea,
 			'_NET_SHOWING_DESKTOP':		self.getShowingDesktop,
-			'_NET_WM_NAME':				self.getWmName,
+			'_NET_WM_NAME':			self.getWmName,
 			'_NET_WM_VISIBLE_NAME':		self.getWmVisibleName,
-			'_NET_WM_DESKTOP':			self.getWmDesktop,
+			'_NET_WM_DESKTOP':		self.getWmDesktop,
 			'_NET_WM_WINDOW_TYPE':		self.getWmWindowType,
-			'_NET_WM_STATE':			self.getWmState, 
+			'_NET_WM_STATE':		self.getWmState, 
 			'_NET_WM_ALLOWED_ACTIONS':	self.getWmAllowedActions,
-			'_NET_WM_PID':				self.getWmPid,
+			'_NET_WM_PID':			self.getWmPid,
 		}
 		self.__setAttrs = {
 			'_NET_NUMBER_OF_DESKTOPS':	self.setNumberOfDesktops,
@@ -77,10 +76,10 @@ class EWMH:
 			'_NET_SHOWING_DESKTOP':		self.setShowingDesktop,
 			'_NET_CLOSE_WINDOW':		self.setCloseWindow,
 			'_NET_MOVERESIZE_WINDOW':	self.setMoveResizeWindow,
-			'_NET_WM_NAME':				self.setWmName,
+			'_NET_WM_NAME':			self.setWmName,
 			'_NET_WM_VISIBLE_NAME':		self.setWmVisibleName,
-			'_NET_WM_DESKTOP':			self.setWmDesktop,
-			'_NET_WM_STATE':			self.setWmState, 
+			'_NET_WM_DESKTOP':		self.setWmDesktop,
+			'_NET_WM_STATE':		self.setWmState, 
 		}
 	
 	# ------------------------ setters properties ------------------------
@@ -118,7 +117,7 @@ class EWMH:
 		self._setProperty('_NET_ACTIVE_WINDOW', [1, X.CurrentTime, win.id], win)
 	
 	def setShowingDesktop(self, show):
-		"""Set / Unset the mode Showing desktop (property _NET_SHOWING_DESKTOP)
+		"""Set/unset the mode Showing desktop (property _NET_SHOWING_DESKTOP)
 		
 		:param show: 1 to set the desktop mode, else 0"""
 		self._setProperty('_NET_SHOWING_DESKTOP', [show])
@@ -151,7 +150,7 @@ class EWMH:
 		self._setProperty('_NET_WM_DESKTOP', [i, 1], win)
 	
 	def setMoveResizeWindow(self, win, gravity=0, x=None, y=None, w=None, h=None):
-		"""Set the property _NET_MOVERESIZE_WINDOW to move / resize the given window.
+		"""Set the property _NET_MOVERESIZE_WINDOW to move or resize the given window.
 		Flags are automatically calculated if x, y, w or h are defined.
 		
 		:param win: the window object
@@ -172,7 +171,7 @@ class EWMH:
 		self._setProperty('_NET_MOVERESIZE_WINDOW', [gravity_flags, x, y, w, h], win)
 	
 	def setWmState(self, win, action, state, state2=0):
-		"""Set / unset one or two state(s) for the given window (property _NET_WM_STATE).
+		"""Set/unset one or two state(s) for the given window (property _NET_WM_STATE).
 		
 		:param win: the window object
 		:param action: 0 to remove, 1 to add or 2 to toggle state(s)
@@ -214,7 +213,8 @@ class EWMH:
 		return self._getProperty('_NET_DESKTOP_GEOMETRY')
 	
 	def getDesktopViewPort(self):
-		"""Get the current viewports of each desktop as a list of [x, y] representing the top left corner (property _NET_DESKTOP_VIEWPORT).
+		"""Get the current viewports of each desktop as a list of [x, y] representing
+                the top left corner (property _NET_DESKTOP_VIEWPORT).
 		
 		:return: list of [int, int]"""
 		return self._getProperty('_NET_DESKTOP_VIEWPORT')
@@ -229,7 +229,10 @@ class EWMH:
 		"""Get the current active (toplevel) window or None (property _NET_ACTIVE_WINDOW)
 		
 		:return: Window object or None"""
-		return self._createWindow(self._getProperty('_NET_ACTIVE_WINDOW')[0])
+		active_window = self._getProperty('_NET_ACTIVE_WINDOW')
+		if active_window == None:
+			return None
+		return self._createWindow(active_window[0])
 	
 	def getWorkArea(self):
 		"""Get the work area for each desktop (property _NET_WORKAREA) as a list of [x, y, width, height]
@@ -239,7 +242,7 @@ class EWMH:
 	
 	def getShowingDesktop(self):
 		"""Get the value of "showing the desktop" mode of the window manager (property _NET_SHOWING_DESKTOP).
-		1 means "showing the desktop" mode activated, and 0 means deactivated.
+		1 means the mode is activated, and 0 means deactivated.
 		
 		:return: int"""
 		return self._getProperty('_NET_SHOWING_DESKTOP')[0]
@@ -247,28 +250,28 @@ class EWMH:
 	def getWmName(self, win):
 		"""Get the property _NET_WM_NAME for the given window as a string.
 		
-		:param win: the window objet
+		:param win: the window object
 		:return: str"""
 		return self._getProperty('_NET_WM_NAME', win)
 	
 	def getWmVisibleName(self, win):
 		"""Get the property _NET_WM_VISIBLE_NAME for the given window as a string.
 		
-		:param win: the window objet
+		:param win: the window object
 		:return: str"""
 		return self._getProperty('_NET_WM_VISIBLE_NAME', win)
 	
 	def getWmDesktop(self, win):
 		"""Get the current desktop number of the given window (property _NET_WM_DESKTOP).
 		
-		:param win: the window objet
+		:param win: the window object
 		:return: int"""
 		return self._getProperty('_NET_WM_DESKTOP', win)[0]
 	
 	def getWmWindowType(self, win, str=False):
 		"""Get the list of window types of the given window (property _NET_WM_WINDOW_TYPE).
 		
-		:param win: the window objet
+		:param win: the window object
 		:param str: True to get a list of string types instead of int
 		:return: list of (int|str)"""
 		types = self._getProperty('_NET_WM_WINDOW_TYPE', win)
@@ -278,7 +281,7 @@ class EWMH:
 	def getWmState(self, win, str=False):
 		"""Get the list of states of the given window (property _NET_WM_STATE).
 		
-		:param win: the window objet
+		:param win: the window object
 		:param str: True to get a list of string states instead of int
 		:return: list of (int|str)"""
 		states = self._getProperty('_NET_WM_STATE', win)
@@ -286,9 +289,9 @@ class EWMH:
 		return map(self._getAtomName, states)
 	
 	def getWmAllowedActions(self, win, str=False):
-		"""Get the list of allowed actions of the given window (property _NET_WM_ALLOWED_ACTIONS).
+		"""Get the list of allowed actions for the given window (property _NET_WM_ALLOWED_ACTIONS).
 		
-		:param win: the window objet
+		:param win: the window object
 		:param str: True to get a list of string allowed actions instead of int
 		:return: list of (int|str)"""
 		wAllowedActions = self._getProperty('_NET_WM_ALLOWED_ACTIONS', win)
@@ -298,7 +301,7 @@ class EWMH:
 	def getWmPid(self, win):
 		"""Get the pid of the application associated to the given window (property _NET_WM_PID)
 		
-		:param win: the window objet"""
+		:param win: the window object"""
 		return self._getProperty('_NET_WM_PID', win)[0]
 	
 	def _getProperty(self, _type, win=None):
@@ -307,7 +310,7 @@ class EWMH:
 		if atom: return atom.value
 	
 	def _setProperty(self, _type, data, win=None, mask=None):
-		""" Send a ClientMessage event to the root """
+		"""Send a ClientMessage event to the root window"""
 		if not win: win = self.root
 		if type(data) is str:
 			dataSize = 8
@@ -323,18 +326,18 @@ class EWMH:
 	
 	def _getAtomName(self, atom):
 		try: return self.display.get_atom_name(atom)
-		except: return 'UNKNOW'
+		except: return 'UNKNOWN'
 	
 	def _createWindow(self, wId):
 		if not wId: return None
 		return self.display.create_resource_object('window', wId)
 
 	def getReadableProperties(self):
-		"""Get all the readable properties names"""
+		"""Get all the readable properties' names"""
 		return self.__getAttrs.keys()
 
 	def getProperty(self, prop, *args, **kwargs):
-		"""Get the value of a property. You have to see the corresponding method for the property to know the required arguments.
+		"""Get the value of a property. See the corresponding method for the required arguments.
 		For example, for the property _NET_WM_STATE, look for :meth:`getWmState`"""
 		f = self.__getAttrs.get(prop)
 		if not f: raise KeyError('Unknow readable property: %s' % prop)
@@ -345,10 +348,8 @@ class EWMH:
 		return self.__setAttrs.keys()
 	
 	def setProperty(self, prop, *args, **kwargs):
-		"""Set the value of a property, by sending an event on the root window. You have to see the corresponding method for
-		the property to know the required arguments. For example, for the property _NET_WM_STATE, look for :meth:`setWmState`"""
+		"""Set the value of a property by sending an event on the root window. See the corresponding method for
+		the required arguments. For example, for the property _NET_WM_STATE, look for :meth:`setWmState`"""
 		f = self.__setAttrs.get(prop)
 		if not f: raise KeyError('Unknow writable property: %s' % prop)
 		f(self, *args, **kwargs)
-		
-	

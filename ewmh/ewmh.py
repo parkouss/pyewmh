@@ -326,7 +326,7 @@ class EWMH:
 	
 	def _getAtomName(self, atom):
 		try: return self.display.get_atom_name(atom)
-		except: return 'UNKNOW'
+		except: return 'UNKNOWN'
 	
 	def _createWindow(self, wId):
 		if not wId: return None

@@ -1,0 +1,6 @@
+Description
+===========
+
+An implementation of EWMH (Extended Window Manager Hints) for python, based on Xlib.
+It intends to give a control on windows for compliants window managers.
+

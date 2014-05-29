@@ -2,7 +2,7 @@
 The ewmh python module
 ======================
 
-.. automodule:: ewmh
+.. automodule:: ewmh.ewmh
 
 --------------
 EWMH class

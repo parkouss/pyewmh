@@ -350,5 +350,3 @@ class EWMH:
 		f = self.__setAttrs.get(prop)
 		if not f: raise KeyError('Unknow writable property: %s' % prop)
 		f(self, *args, **kwargs)
-		
-	

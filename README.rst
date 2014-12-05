@@ -10,6 +10,9 @@ at your option, any later version. See `LICENSE.txt` for more information.
 Installation
 ------------
 
+.. image:: https://pypip.in/version/ewmh/badge.png
+    :target: https://pypi.python.org/pypi/ewmh/
+
 With Python 3, simply:
 
 .. code-block:: shell
@@ -40,6 +43,7 @@ Thanks also to
 --------------
 
 * Holger Witsch
+* Russell Sim
 
 Changelog
 ---------

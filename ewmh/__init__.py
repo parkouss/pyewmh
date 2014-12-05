@@ -1,3 +1,3 @@
 __version__ = '0.1.2'
 
-from ewmh.ewmh import EWMH
+from .ewmh import EWMH

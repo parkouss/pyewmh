@@ -276,7 +276,7 @@ class EWMH:
 		:return: list of (int|str)"""
 		types = self._getProperty('_NET_WM_WINDOW_TYPE', win)
 		if not str: return types
-		return map(self._getAtomName, wtypes)
+		return map(self._getAtomName, types)
 	
 	def getWmState(self, win, str=False):
 		"""Get the list of states of the given window (property _NET_WM_STATE).

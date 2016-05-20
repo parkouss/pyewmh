@@ -1,10 +1,18 @@
+2016-05-20  Julien Pagès  <j.parkouss@gmail.com>
+
+	released 0.1.4
+
+2016-04-16  Mike Smith <mike@scgtrp.net>
+
+	fix getWmWindowName(w, True) issue
+
 2014-12-05  Julien Pagès  <j.parkouss@gmail.com>
 
 	released 0.1.3
 
-2014-12-04 Russell Sim <russell.sim@gmail.com>
+2014-12-04  Russell Sim <russell.sim@gmail.com>
 
-    fix a relative import issue (dropping support fot python < 2.6)
+	fix a relative import issue (dropping support fot python < 2.6)
 
 2014-05-29  Julien Pagès  <j.parkouss@gmail.com>
 

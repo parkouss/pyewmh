@@ -276,7 +276,7 @@ class EWMH:
 		:return: list of (int|str)"""
 		types = self._getProperty('_NET_WM_WINDOW_TYPE', win)
 		if not str: return types
-		return map(self._getAtomName, wtypes)
+		return map(self._getAtomName, types)
 	
 	def getWmState(self, win, str=False):
 		"""Get the list of states of the given window (property _NET_WM_STATE).
@@ -340,7 +340,7 @@ class EWMH:
 		"""Get the value of a property. See the corresponding method for the required arguments.
 		For example, for the property _NET_WM_STATE, look for :meth:`getWmState`"""
 		f = self.__getAttrs.get(prop)
-		if not f: raise KeyError('Unknow readable property: %s' % prop)
+		if not f: raise KeyError('Unknown readable property: %s' % prop)
 		return f(self, *args, **kwargs)
 	
 	def getWritableProperties(self):
@@ -351,5 +351,5 @@ class EWMH:
 		"""Set the value of a property by sending an event on the root window. See the corresponding method for
 		the required arguments. For example, for the property _NET_WM_STATE, look for :meth:`setWmState`"""
 		f = self.__setAttrs.get(prop)
-		if not f: raise KeyError('Unknow writable property: %s' % prop)
+		if not f: raise KeyError('Unknown writable property: %s' % prop)
 		f(self, *args, **kwargs)

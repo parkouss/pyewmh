@@ -1,3 +1,7 @@
+2016-08-12  Hugo Osvaldo Barrera <hugo@barrera.io>
+
+	rely on upstream python-xlib package for all python versions
+
 2016-05-20  Julien Pagès  <j.parkouss@gmail.com>
 
 	released 0.1.4

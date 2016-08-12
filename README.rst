@@ -28,6 +28,7 @@ Contributors
 ------------
 
 * Reuben Thomas <rrt@sc3d.org>
+* Hugo Osvaldo Barrera <hugo@barrera.io>
 
 Thanks also to
 --------------

@@ -10,8 +10,8 @@ at your option, any later version. See `LICENSE.txt` for more information.
 Installation
 ------------
 
-.. image:: https://pypip.in/version/ewmh/badge.png
-    :target: https://pypi.python.org/pypi/ewmh/
+.. image:: https://badge.fury.io/py/ewmh.svg
+    :target: https://badge.fury.io/py/ewmh
 
 Simply run:
 

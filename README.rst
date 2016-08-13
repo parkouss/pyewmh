@@ -13,21 +13,11 @@ Installation
 .. image:: https://pypip.in/version/ewmh/badge.png
     :target: https://pypi.python.org/pypi/ewmh/
 
-With Python 3, simply:
+Simply run:
 
 .. code-block:: shell
   
   pip install ewmh
-
-Unfortunately for Python 2 users, you will have to manually install
-the required dependency **Xlib** from https://pypi.python.org/pypi/python-xlib/0.12,
-until the xlib developers upload a Python 2 version to PyPi.
-
-Once this is done, just
-
-.. code-block:: shell
-  
-  python setup.py install
 
 Documentation
 -------------
@@ -38,6 +28,7 @@ Contributors
 ------------
 
 * Reuben Thomas <rrt@sc3d.org>
+* Hugo Osvaldo Barrera <hugo@barrera.io>
 
 Thanks also to
 --------------

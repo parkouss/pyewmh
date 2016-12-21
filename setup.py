@@ -23,8 +23,8 @@ setup(name='ewmh',
       packages=['ewmh'],
       install_requires=['python-xlib'],
       license='LGPL',
-      classifiers=(
+      classifiers=[
           'Programming Language :: Python :: 2',
           'Programming Language :: Python :: 3',
           'Intended Audience :: Developers',
-      ))
+      ])

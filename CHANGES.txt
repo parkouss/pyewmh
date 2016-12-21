@@ -1,3 +1,9 @@
+2016-12-21  Julien Pagès  <j.parkouss@gmail.com>
+
+	released 0.1.6
+
+	fix list/None/iterator issues for some methods; see https://github.com/parkouss/pyewmh/issues/6
+
 2016-08-13  Julien Pagès  <j.parkouss@gmail.com>
 
 	released 0.1.5

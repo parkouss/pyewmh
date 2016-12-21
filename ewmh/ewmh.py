@@ -245,7 +245,8 @@ class EWMH:
 
         :return: list of Window objects
         """
-        return map(self._createWindow, self._getProperty('_NET_CLIENT_LIST'))
+        return [self._createWindow(w)
+                for w in self._getProperty('_NET_CLIENT_LIST')]
 
     def getClientListStacking(self):
         """
@@ -253,8 +254,8 @@ class EWMH:
         property _NET_CLIENT_LIST_STACKING.
 
         :return: list of Window objects"""
-        return map(self._createWindow,
-                   self._getProperty('_NET_CLIENT_LIST_STACKING'))
+        return [self._createWindow(w)
+                for w in self._getProperty('_NET_CLIENT_LIST_STACKING')]
 
     def getNumberOfDesktops(self):
         """
@@ -356,10 +357,10 @@ class EWMH:
         :param str: True to get a list of string types instead of int
         :return: list of (int|str)
         """
-        types = self._getProperty('_NET_WM_WINDOW_TYPE', win)
+        types = self._getProperty('_NET_WM_WINDOW_TYPE', win) or []
         if not str:
             return types
-        return map(self._getAtomName, types)
+        return [self._getAtomName(t) for t in types]
 
     def getWmState(self, win, str=False):
         """
@@ -369,10 +370,10 @@ class EWMH:
         :param str: True to get a list of string states instead of int
         :return: list of (int|str)
         """
-        states = self._getProperty('_NET_WM_STATE', win)
+        states = self._getProperty('_NET_WM_STATE', win) or []
         if not str:
             return states
-        return map(self._getAtomName, states)
+        return [self._getAtomName(s) for s in states]
 
     def getWmAllowedActions(self, win, str=False):
         """
@@ -383,10 +384,11 @@ class EWMH:
         :param str: True to get a list of string allowed actions instead of int
         :return: list of (int|str)
         """
-        wAllowedActions = self._getProperty('_NET_WM_ALLOWED_ACTIONS', win)
+        wAllowedActions = (
+            self._getProperty('_NET_WM_ALLOWED_ACTIONS', win) or [])
         if not str:
             return wAllowedActions
-        return map(self._getAtomName, wAllowedActions)
+        return [self._getAtomName(a) for a in wAllowedActions]
 
     def getWmPid(self, win):
         """

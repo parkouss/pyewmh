@@ -346,7 +346,8 @@ class EWMH:
         :param win: the window object
         :return: int
         """
-        return self._getProperty('_NET_WM_DESKTOP', win)[0]
+        arr = self._getProperty('_NET_WM_DESKTOP', win)
+        return arr[0] if arr else None
 
     def getWmWindowType(self, win, str=False):
         """
@@ -397,7 +398,8 @@ class EWMH:
 
         :param win: the window object
         """
-        return self._getProperty('_NET_WM_PID', win)[0]
+        arr = self._getProperty('_NET_WM_PID', win)
+        return arr[0] if arr else None
 
     def _getProperty(self, _type, win=None):
         if not win:

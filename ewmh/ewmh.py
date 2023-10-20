@@ -6,10 +6,20 @@ See the freedesktop.org `specification
 <http://standards.freedesktop.org/wm-spec/wm-spec-latest.html>`_ for more
 information.
 """
+# mypy: disable_error_code = "no-any-return"
+from __future__ import annotations
 
-from Xlib import display, X, protocol
 import time
 
+from Xlib import X, display, protocol
+from Xlib.xobject import drawable
+
+try:
+    from typing import Any
+
+    from _collections_abc import dict_keys
+except ImportError:
+    pass
 
 class EWMH:
     """
@@ -67,8 +77,9 @@ class EWMH:
     """List of strings representing all known window states."""
 
     def __init__(self, _display=None, root=None):
+        # type: (display.Display | None, drawable.Window | None) -> None
         self.display = _display or display.Display()
-        self.root = root or self.display.screen().root
+        self.root = root or self.display.screen().root  # type: drawable.Window
         self.__getAttrs = {
             '_NET_CLIENT_LIST':           self.getClientList,
             '_NET_CLIENT_LIST_STACKING':  self.getClientListStacking,
@@ -105,6 +116,7 @@ class EWMH:
     # ------------------------ setters properties ------------------------
 
     def setNumberOfDesktops(self, nb):
+        # type: (int) -> None
         """
         Set the number of desktops (property _NET_NUMBER_OF_DESKTOPS).
 
@@ -112,6 +124,7 @@ class EWMH:
         self._setProperty('_NET_NUMBER_OF_DESKTOPS', [nb])
 
     def setDesktopGeometry(self, w, h):
+        # type: (int, int) -> None
         """
         Set the desktop geometry (property _NET_DESKTOP_GEOMETRY)
 
@@ -120,6 +133,7 @@ class EWMH:
         self._setProperty('_NET_DESKTOP_GEOMETRY', [w, h])
 
     def setDesktopViewport(self, w, h):
+        # type: (int, int) -> None
         """
         Set the viewport size of the current desktop
         (property _NET_DESKTOP_VIEWPORT)
@@ -129,6 +143,7 @@ class EWMH:
         self._setProperty('_NET_DESKTOP_VIEWPORT', [w, h])
 
     def setCurrentDesktop(self, i):
+        # type: (int) -> None
         """
         Set the current desktop (property _NET_CURRENT_DESKTOP).
 
@@ -136,6 +151,7 @@ class EWMH:
         self._setProperty('_NET_CURRENT_DESKTOP', [i, X.CurrentTime])
 
     def setActiveWindow(self, win):
+        # type: (drawable.Window) -> None
         """
         Set the given window active (property _NET_ACTIVE_WINDOW)
 
@@ -144,13 +160,15 @@ class EWMH:
                           win)
 
     def setShowingDesktop(self, show):
+        # type: (int | bool) -> None
         """
         Set/unset the mode Showing desktop (property _NET_SHOWING_DESKTOP)
 
-        :param show: 1 to set the desktop mode, else 0"""
-        self._setProperty('_NET_SHOWING_DESKTOP', [show])
+        :param show: 1 or True to set the desktop mode, else 0 or False"""
+        self._setProperty('_NET_SHOWING_DESKTOP', [int(show)])
 
     def setCloseWindow(self, win):
+        # type: (drawable.Window) -> None
         """
         Close the given window (property _NET_CLOSE_WINDOW)
 
@@ -159,6 +177,7 @@ class EWMH:
                           [int(time.mktime(time.localtime())), 1], win)
 
     def setWmName(self, win, name):
+        # type: (drawable.Window, str) -> None
         """
         Set the property _NET_WM_NAME
 
@@ -167,6 +186,7 @@ class EWMH:
         self._setProperty('_NET_WM_NAME', name, win)
 
     def setWmVisibleName(self, win, name):
+        # type: (drawable.Window, str) -> None
         """
         Set the property _NET_WM_VISIBLE_NAME
 
@@ -175,6 +195,7 @@ class EWMH:
         self._setProperty('_NET_WM_VISIBLE_NAME', name, win)
 
     def setWmDesktop(self, win, i):
+        # type: (drawable.Window, int) -> None
         """
         Move the window to the desired desktop by changing the property
         _NET_WM_DESKTOP.
@@ -186,6 +207,7 @@ class EWMH:
 
     def setMoveResizeWindow(self, win, gravity=0, x=None, y=None, w=None,
                             h=None):
+        # type: (drawable.Window, int, int | None, int | None, int | None, int | None) -> None
         """
         Set the property _NET_MOVERESIZE_WINDOW to move or resize the given
         window. Flags are automatically calculated if x, y, w or h are defined.
@@ -219,6 +241,7 @@ class EWMH:
                           [gravity_flags, x, y, w, h], win)
 
     def setWmState(self, win, action, state, state2=0):
+        # type: (drawable.Window, int, int | str, int | str) -> None
         """
         Set/unset one or two state(s) for the given window (property
         _NET_WM_STATE).
@@ -230,15 +253,16 @@ class EWMH:
         :param state2: a state or 0
         :type state2: int or str (see :attr:`NET_WM_STATES`)
         """
-        if type(state) != int:
-            state = self.display.get_atom(state, 1)
-        if type(state2) != int:
-            state2 = self.display.get_atom(state2, 1)
+        if not isinstance(state, int):
+            state = self.display.get_atom(state, True)
+        if not isinstance(state2, int):
+            state2 = self.display.get_atom(state2, True)
         self._setProperty('_NET_WM_STATE', [action, state, state2, 1], win)
 
     # ------------------------ getters properties ------------------------
 
     def getClientList(self):
+        # type: () -> list[drawable.Window | None]
         """
         Get the list of windows maintained by the window manager for the
         property _NET_CLIENT_LIST.
@@ -249,6 +273,7 @@ class EWMH:
                 for w in self._getProperty('_NET_CLIENT_LIST')]
 
     def getClientListStacking(self):
+        # type: () -> list[drawable.Window | None]
         """
         Get the list of windows maintained by the window manager for the
         property _NET_CLIENT_LIST_STACKING.
@@ -258,6 +283,7 @@ class EWMH:
                 for w in self._getProperty('_NET_CLIENT_LIST_STACKING')]
 
     def getNumberOfDesktops(self):
+        # type: () -> int
         """
         Get the number of desktops (property _NET_NUMBER_OF_DESKTOPS).
 
@@ -265,6 +291,7 @@ class EWMH:
         return self._getProperty('_NET_NUMBER_OF_DESKTOPS')[0]
 
     def getDesktopGeometry(self):
+        # type: () -> tuple[int, int]
         """
         Get the desktop geometry (property _NET_DESKTOP_GEOMETRY) as an array
         of two integers [width, height].
@@ -273,6 +300,7 @@ class EWMH:
         return self._getProperty('_NET_DESKTOP_GEOMETRY')
 
     def getDesktopViewPort(self):
+        # type: () -> tuple[int, int]
         """
         Get the current viewports of each desktop as a list of [x, y]
         representing the top left corner (property _NET_DESKTOP_VIEWPORT).
@@ -282,6 +310,7 @@ class EWMH:
         return self._getProperty('_NET_DESKTOP_VIEWPORT')
 
     def getCurrentDesktop(self):
+        # type: () -> int
         """
         Get the current desktop number (property _NET_CURRENT_DESKTOP)
 
@@ -290,6 +319,7 @@ class EWMH:
         return self._getProperty('_NET_CURRENT_DESKTOP')[0]
 
     def getActiveWindow(self):
+        # type: () -> drawable.Window | None
         """
         Get the current active (toplevel) window or None (property
         _NET_ACTIVE_WINDOW)
@@ -297,11 +327,12 @@ class EWMH:
         :return: Window object or None
         """
         active_window = self._getProperty('_NET_ACTIVE_WINDOW')
-        if active_window is None:
+        if not active_window:
             return None
         return self._createWindow(active_window[0])
 
     def getWorkArea(self):
+        # type: () -> tuple[int, int, int, int]
         """
         Get the work area for each desktop (property _NET_WORKAREA) as a list
         of [x, y, width, height]
@@ -311,6 +342,7 @@ class EWMH:
         return self._getProperty('_NET_WORKAREA')
 
     def getShowingDesktop(self):
+        # type: () -> int
         """
         Get the value of "showing the desktop" mode of the window manager
         (property _NET_SHOWING_DESKTOP).  1 means the mode is activated, and 0
@@ -321,6 +353,7 @@ class EWMH:
         return self._getProperty('_NET_SHOWING_DESKTOP')[0]
 
     def getWmName(self, win):
+        # type: (drawable.Window) -> str
         """
         Get the property _NET_WM_NAME for the given window as a string.
 
@@ -330,6 +363,7 @@ class EWMH:
         return self._getProperty('_NET_WM_NAME', win)
 
     def getWmVisibleName(self, win):
+        # type: (drawable.Window) -> str
         """
         Get the property _NET_WM_VISIBLE_NAME for the given window as a string.
 
@@ -339,6 +373,7 @@ class EWMH:
         return self._getProperty('_NET_WM_VISIBLE_NAME', win)
 
     def getWmDesktop(self, win):
+        # type: (drawable.Window) -> int | None
         """
         Get the current desktop number of the given window (property
         _NET_WM_DESKTOP).
@@ -350,6 +385,7 @@ class EWMH:
         return arr[0] if arr else None
 
     def getWmWindowType(self, win, str=False):
+        # type: (drawable.Window, bool) -> list[str] | list[int]
         """
         Get the list of window types of the given window (property
         _NET_WM_WINDOW_TYPE).
@@ -358,12 +394,13 @@ class EWMH:
         :param str: True to get a list of string types instead of int
         :return: list of (int|str)
         """
-        types = self._getProperty('_NET_WM_WINDOW_TYPE', win) or []
+        types = self._getProperty('_NET_WM_WINDOW_TYPE', win)
         if not str:
             return types
         return [self._getAtomName(t) for t in types]
 
     def getWmState(self, win, str=False):
+        # type: (drawable.Window, bool) -> list[str] | list[int]
         """
         Get the list of states of the given window (property _NET_WM_STATE).
 
@@ -371,12 +408,13 @@ class EWMH:
         :param str: True to get a list of string states instead of int
         :return: list of (int|str)
         """
-        states = self._getProperty('_NET_WM_STATE', win) or []
+        states = self._getProperty('_NET_WM_STATE', win)
         if not str:
             return states
         return [self._getAtomName(s) for s in states]
 
     def getWmAllowedActions(self, win, str=False):
+        # type: (drawable.Window, bool) -> list[str] | list[int]
         """
         Get the list of allowed actions for the given window (property
         _NET_WM_ALLOWED_ACTIONS).
@@ -385,13 +423,13 @@ class EWMH:
         :param str: True to get a list of string allowed actions instead of int
         :return: list of (int|str)
         """
-        wAllowedActions = (
-            self._getProperty('_NET_WM_ALLOWED_ACTIONS', win) or [])
+        wAllowedActions = self._getProperty('_NET_WM_ALLOWED_ACTIONS', win)
         if not str:
             return wAllowedActions
         return [self._getAtomName(a) for a in wAllowedActions]
 
     def getWmPid(self, win):
+        # type: (drawable.Window) -> int | None
         """
         Get the pid of the application associated to the given window (property
         _NET_WM_PID)
@@ -401,21 +439,25 @@ class EWMH:
         arr = self._getProperty('_NET_WM_PID', win)
         return arr[0] if arr else None
 
+    # Another good candidate for AnyOf: https://github.com/python/typing/issues/566
     def _getProperty(self, _type, win=None):
+        # type: (str, drawable.Window | None) -> Any  # AnyOf[tuple[int, ...] | str]
         if not win:
             win = self.root
         atom = win.get_full_property(self.display.get_atom(_type),
                                      X.AnyPropertyType)
         if atom:
             return atom.value
+        return []
 
     def _setProperty(self, _type, data, win=None, mask=None):
+        # type: (str, str | list[int], drawable.Window | None, int | None) -> None
         """
         Send a ClientMessage event to the root window
         """
         if not win:
             win = self.root
-        if type(data) is str:
+        if isinstance(data, str):
             dataSize = 8
         else:
             data = (data+[0]*(5-len(data)))[:5]
@@ -430,23 +472,29 @@ class EWMH:
         self.root.send_event(ev, event_mask=mask)
 
     def _getAtomName(self, atom):
+        # type: (int) -> str
         try:
             return self.display.get_atom_name(atom)
-        except:
+        except Exception:
             return 'UNKNOWN'
 
     def _createWindow(self, wId):
+        # type: (int | None) -> drawable.Window | None
         if not wId:
             return None
         return self.display.create_resource_object('window', wId)
 
+    # Another good candidate for AnyOf: https://github.com/python/typing/issues/566
     def getReadableProperties(self):
+        # type: () -> dict_keys[str, Any]  # dict_keys[str, AnyOf[(() -> list[Window | None]) | (() -> int) | (() -> tuple[int, int]) | (() -> (Window | None)) | (() -> tuple[int, int, int, int]) | ((win: Window) -> str) | ((win: Window) -> (int | None)) | ((win: Window, str: bool = False) -> (list[str] | list[int]))]
         """
         Get all the readable properties' names
         """
         return self.__getAttrs.keys()
 
+    # Another good candidate for AnyOf: https://github.com/python/typing/issues/566
     def getProperty(self, prop, *args, **kwargs):
+        # type: (str, drawable.Window | bool, drawable.Window | bool) -> Any  # AnyOf[int, str, list[Window | None], list[str], list[int], tuple[int, int], tuple[int, int, int, int], Window, None]
         """
         Get the value of a property. See the corresponding method for the
         required arguments.  For example, for the property _NET_WM_STATE, look
@@ -455,13 +503,16 @@ class EWMH:
         f = self.__getAttrs.get(prop)
         if not f:
             raise KeyError('Unknown readable property: %s' % prop)
-        return f(self, *args, **kwargs)
+        return f(self, *args, **kwargs)  # type: ignore[operator]  # pyright: ignore[reportGeneralTypeIssues]
 
+    # Another good candidate for AnyOf: https://github.com/python/typing/issues/566
     def getWritableProperties(self):
+        # type: () -> dict_keys[str, Any]  # dict_keys[str, AnyOf[((nb: int) -> None) | ((w: int, h: int) -> None) | ((i: int) -> None) | ((win: Window) -> None) | ((show: int | bool) -> None) | ((win: Window, gravity: int = 0, x: int | None = None, y: int | None = None, w: int | None = None, h: int | None = None) -> None) | ((win: Window, name: str) -> None) | ((win: Window, i: int) -> None) | ((win: Window, action: int, state: int | str, state2: int | str = 0) -> None)]
         """Get all the writable properties names"""
         return self.__setAttrs.keys()
 
     def setProperty(self, prop, *args, **kwargs):
+        # type: (str, drawable.Window | str | int | bool | None, drawable.Window | str | int | bool | None) -> None
         """
         Set the value of a property by sending an event on the root window.
         See the corresponding method for the required arguments. For example,
@@ -470,4 +521,4 @@ class EWMH:
         f = self.__setAttrs.get(prop)
         if not f:
             raise KeyError('Unknown writable property: %s' % prop)
-        f(self, *args, **kwargs)
+        f(self, *args, **kwargs)  # type: ignore[operator]  # pyright: ignore[reportGeneralTypeIssues]

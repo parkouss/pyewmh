@@ -1,0 +1,41 @@
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+  pull_request:
+    paths:
+      - "**.py"
+      - "**.pyi"
+
+jobs:
+  mypy:
+    name: Type-check with mypy
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        platform: ["linux", "win32", "darwin"]
+        python-version: ["3.8", "3.9", "3.10", "3.11", "3.12"]
+      fail-fast: false
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-python@v4
+        with:
+          python-version: ${{ matrix.python-version }}
+          cache: pip
+          cache-dependency-path: setup.py
+      - run: pip install . types-python-xlib
+      - run: mypy . --strict
+
+  pyright:
+    name: Type-check with pyright
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ["3.7", "3.8", "3.9", "3.10", "3.11", "3.12"]
+    steps:
+      - uses: actions/checkout@v3
+      - run: pip install .
+      - uses: jakebailey/pyright-action@v1
+        with:
+          python-version: ${{ matrix.python-version }}

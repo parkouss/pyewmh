@@ -1,0 +1,18 @@
+{
+  // Oldest not EOL python version
+  "pythonVersion": "3.7",
+  "pythonPlatform": "Linux",
+  "useLibraryCodeForTypes": true,
+  "typeCheckingMode": "strict",
+  // Extra strict. Optional options even in "strict" mode.
+  "reportImplicitStringConcatenation": "error",
+  "reportCallInDefaultInitializer": "error",
+  "reportPropertyTypeMismatch": "error",
+  "reportUnnecessaryTypeIgnoreComment": "error",
+  // type: ignore comments are meant for mypy
+  "enableTypeIgnoreComments": false,
+  // False positives with TYPE_CHECKING and defered imports
+  "reportImportCycles": "information",
+  // We actively use type comments to support python 2
+  "reportTypeCommentUsage": "none",
+}

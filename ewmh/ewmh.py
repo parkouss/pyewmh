@@ -224,7 +224,7 @@ class EWMH:
         if x is None:
             x = 0
         else:
-            gravity_flags = gravity_flags | 0b0000010000000000
+            gravity_flags = gravity_flags | 0b0000000100000000
         if y is None:
             y = 0
         else:
@@ -232,11 +232,11 @@ class EWMH:
         if w is None:
             w = 0
         else:
-            gravity_flags = gravity_flags | 0b0000000100000000
+            gravity_flags = gravity_flags | 0b0000010000000000
         if h is None:
             h = 0
         else:
-            gravity_flags = gravity_flags | 0b0000000010000000
+            gravity_flags = gravity_flags | 0b0000100000000000
         self._setProperty('_NET_MOVERESIZE_WINDOW',
                           [gravity_flags, x, y, w, h], win)
 

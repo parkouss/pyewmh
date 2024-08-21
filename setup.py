@@ -1,9 +1,10 @@
+import re
+import sys
+
 try:
     from setuptools import setup
 except ImportError:
-    from distutils.core import setup
-import sys
-import re
+    from distutils.core import setup  # type: ignore[assignment]
 
 
 if sys.version_info < (2, 6):
@@ -21,6 +22,7 @@ setup(name='ewmh',
       author_email="j.parkouss@gmail.com",
       url='https://github.com/parkouss/pyewmh',
       packages=['ewmh'],
+      package_data={"ewmh": ["ewmh/py.typed"]},
       install_requires=['python-xlib'],
       license='LGPL',
       classifiers=[

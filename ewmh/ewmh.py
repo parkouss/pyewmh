@@ -318,6 +318,17 @@ class EWMH:
         """
         return self._getProperty('_NET_CURRENT_DESKTOP')[0]
 
+    def getDesktopNames(self):
+        """
+        Get the names of the desktops (property _NET_DESKTOP_NAMES)
+
+        :return: list
+        """
+        raw = self._getProperty('_NET_DESKTOP_NAMES')
+        asstr = bytes.decode(raw)
+        asarr = asstr.split('\x00')
+        return [x for x in asarr if (x != '\x00' and x != '' and x != ' ')]
+
     def getActiveWindow(self):
         # type: () -> drawable.Window | None
         """
